@@ -13,7 +13,7 @@ public class WaterPlant : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        plantAnimator = transform.GetChild(0).gameObject.GetComponent<Animator>();
+        plantAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -21,12 +21,28 @@ public class WaterPlant : MonoBehaviour
     {
         timer += Time.deltaTime;
     }
-
-    void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("WaterParticle"))
+        if (collision.gameObject.CompareTag("WaterParticle"))
         {
             Debug.Log("Collision: Water");
+        }
+        else
+        {
+            Debug.Log("Collision: Other");
+        }
+    }
+
+    private void OnParticleCollision(GameObject other)
+    {
+        if (other.gameObject.CompareTag("WaterParticle"))
+        {
+            Debug.Log("Collision: Water");
+            Max();
+        }
+        else
+        {
+            Debug.Log("Collision: Other");
         }
     }
 
