@@ -25,10 +25,10 @@ public class WateringCan : MonoBehaviour
 
         // Define thresholds for tilting
         bool isTiltingForward = tiltForward > 90 && tiltForward < 150; // Adjust the range as needed
-        bool isTiltingSideways = tiltSideways > 45 && tiltSideways < 135; // Adjust the range as needed
+        bool isTiltingSideways = tiltSideways > 90 && tiltSideways < 150; // Adjust the range as needed
 
         // Enable or disable particle emission based on tilt conditions
-        if (isTiltingForward && isTiltingSideways) // Only emit when tilted forward, not sideways
+        if (isTiltingForward || isTiltingSideways) // Only emit when tilted forward, not sideways
         {
             if (!water.isPlaying)
                 water.Play();
