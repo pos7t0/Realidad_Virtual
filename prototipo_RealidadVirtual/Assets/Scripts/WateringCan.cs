@@ -5,7 +5,6 @@ using UnityEngine;
 public class WateringCan : MonoBehaviour
 {
     public ParticleSystem water;
-    public GameObject waterSource;
 
     // Start is called before the first frame update
     void Start()
