@@ -30,7 +30,7 @@ public class WaterCollision : MonoBehaviour
 
                 if (plantScript != null)
                 {
-                    plantScript.Small();
+                    //plantScript.Small();
                     didHit = false;
                 }
                 else
