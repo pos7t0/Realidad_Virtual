@@ -71,7 +71,7 @@ public class WaterPlant : MonoBehaviour
     {
         if (other.gameObject.CompareTag("WaterParticle"))
         {
-            Debug.Log("Collision: Water");
+            //Debug.Log("Collision: Water");
             //water.value++;
             timerstop = 0;
             isTouch = true;
@@ -80,7 +80,7 @@ public class WaterPlant : MonoBehaviour
         else
         {
             isTouch = false;
-            Debug.Log("Collision: Other");
+            //Debug.Log("Collision: Other");
         }
     }
 
