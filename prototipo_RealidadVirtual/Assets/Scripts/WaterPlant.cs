@@ -9,14 +9,12 @@ public class WaterPlant : MonoBehaviour
     public Directions tall;
 
     private Animator plantAnimator;
-    private float timer=0;
-    private float timerstop=0;
+    private float timer = 0;
+    private float timerstop = 0;
 
 
-    
-    private bool isTouch=false;
-    public Transform player; // Referencia al transform del jugador
     public GameObject canvas;
+    private bool isTouch=false;
     public Slider water;
     public float maxWater;
     // Start is called before the first frame update
@@ -29,8 +27,16 @@ public class WaterPlant : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isTouch)
-        timer += Time.deltaTime;
+        if (isTouch)
+        {
+            canvas.SetActive(true);
+            timer += Time.deltaTime;
+        }
+        else
+        {
+            canvas.SetActive(false);
+        }
+        
 
         timerstop += Time.deltaTime;
 
@@ -39,24 +45,12 @@ public class WaterPlant : MonoBehaviour
             isTouch = false;
         }
 
-        if (canvas!=null)
+
+        if (canvas.active)
         {
-            Vector3 direction = player.position - canvas.transform.position;
-            direction.y = 0; // Ignorar el eje Y
-            
-            // Verificar que la dirección no sea cero para evitar errores
-            if (direction.sqrMagnitude > 0.01f)
-            {
-                // Calcular la rotación hacia el jugador
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-            
-                // Aplicar la rotación al objeto
-                canvas.transform.rotation = targetRotation;
-            }
+            water.value = timer;
         }
         
-
-        water.value = timer;
     }
 
     private void OnCollisionEnter(Collision collision)
