@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WaterPlant : MonoBehaviour
 {
@@ -8,19 +9,56 @@ public class WaterPlant : MonoBehaviour
     public Directions tall;
 
     private Animator plantAnimator;
-    private float timer;
+    private float timer=0;
+    private float timerstop=0;
 
+
+    
+    private bool isTouch=false;
+    public Transform player; // Referencia al transform del jugador
+    public GameObject canvas;
+    public Slider water;
+    public float maxWater;
     // Start is called before the first frame update
     void Start()
     {
         plantAnimator = GetComponent<Animator>();
+        water.maxValue = maxWater;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(isTouch)
         timer += Time.deltaTime;
+
+        timerstop += Time.deltaTime;
+
+        if (timerstop>=0.5f)
+        {
+            isTouch = false;
+        }
+
+        if (canvas!=null)
+        {
+            Vector3 direction = player.position - canvas.transform.position;
+            direction.y = 0; // Ignorar el eje Y
+            
+            // Verificar que la dirección no sea cero para evitar errores
+            if (direction.sqrMagnitude > 0.01f)
+            {
+                // Calcular la rotación hacia el jugador
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+            
+                // Aplicar la rotación al objeto
+                canvas.transform.rotation = targetRotation;
+            }
+        }
+        
+
+        water.value = timer;
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("WaterParticle"))
@@ -33,15 +71,21 @@ public class WaterPlant : MonoBehaviour
         }
     }
 
+    
+    
     private void OnParticleCollision(GameObject other)
     {
         if (other.gameObject.CompareTag("WaterParticle"))
         {
             Debug.Log("Collision: Water");
-            Max();
+            //water.value++;
+            timerstop = 0;
+            isTouch = true;
+            //Max();
         }
         else
         {
+            isTouch = false;
             Debug.Log("Collision: Other");
         }
     }
@@ -120,5 +164,6 @@ public class WaterPlant : MonoBehaviour
             }
         }
     }
+
 
 }
