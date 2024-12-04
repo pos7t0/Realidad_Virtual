@@ -21,7 +21,7 @@ public class RotateToPlayer : MonoBehaviour
         // Calculate the angle on the Y-axis
         float targetYRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
 
-        Debug.Log(playerTransform.position);
+        targetYRotation += 180;
 
         // Apply the rotation only on the Y-axis
         transform.rotation = Quaternion.Euler(0, targetYRotation, 0);
