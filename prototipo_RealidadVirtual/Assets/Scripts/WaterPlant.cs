@@ -5,13 +5,14 @@ using UnityEngine.UI;
 
 public class WaterPlant : MonoBehaviour
 {
-    public enum Directions { SMALL, MID, MAX };
-    public Directions tall;
+
+    private string[] phase = new string[] { "Small", "Mid", "Max" };
+    private int index=0;
 
     private Animator plantAnimator;
     private float timer = 0;
     private float timerstop = 0;
-
+    private bool seed = false;
 
     public GameObject canvas;
     private bool isTouch=false;
@@ -27,29 +28,45 @@ public class WaterPlant : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isTouch)
+        if (seed)
         {
-            canvas.SetActive(true);
-            timer += Time.deltaTime;
-        }
-        else
-        {
-            canvas.SetActive(false);
+            //si esta tocando alguna particula, se le aumentara al slider y se vera un indicador
+            if (isTouch&&index<3)
+            {
+                canvas.SetActive(true);
+                timer += Time.deltaTime;
+            }
+            else
+            {
+                canvas.SetActive(false);
+            }
+            
+            //aumentar el tiempo para parar de recibir agua
+            timerstop += Time.deltaTime;
+
+            //si pasa del tiempo, se dara el indicativo de que no hay agua colisionando
+            if (timerstop>=0.5f)
+            {
+                isTouch = false;
+            }
+
+            //si logra llegar al limite, la planta crecera
+            if (water.value>=maxWater)
+            {
+                Debug.Log("hola");
+                plantAnimator.SetTrigger(phase[index]);
+                if (index < 3)
+                {
+                    index++;
+                }
+                timer = 0;
+
+            }
+            
+            water.value = timer;
+            
         }
         
-
-        timerstop += Time.deltaTime;
-
-        if (timerstop>=0.5f)
-        {
-            isTouch = false;
-        }
-
-
-        if (canvas.active)
-        {
-            water.value = timer;
-        }
         
     }
 
@@ -84,79 +101,9 @@ public class WaterPlant : MonoBehaviour
         }
     }
 
-    public void Small()
+    public void PutSeed()
     {
-        if (timer > 1)
-        {
-            if (tall != Directions.SMALL)
-            {
-                if (tall == Directions.MID)
-                {
-                    plantAnimator.SetTrigger("Small");
-                    timer = 0;
-                    tall = Directions.SMALL;
-
-                }
-                if (tall == Directions.MAX)
-                {
-                    plantAnimator.SetTrigger("MaxMin");
-                    timer = 0;
-                    tall = Directions.SMALL;
-
-                }
-            }
-        }
-    }
-
-    public void Mid()
-    {
-        if (timer > 1)
-        {
-            if (tall != Directions.MID)
-            {
-
-                if (tall == Directions.SMALL)
-                {
-                    plantAnimator.SetTrigger("Mid");
-                    timer = 0;
-                    tall = Directions.MID;
-
-                }
-                else if (tall == Directions.MAX)
-                {
-                    plantAnimator.SetTrigger("Max to Mid");
-                    timer = 0;
-                    tall = Directions.MID;
-                }
-            }
-        }
-
-
-    }
-    public void Max()
-    {
-        if (timer > 1)
-        {
-            if (tall != Directions.MAX)
-            {
-                if (tall == Directions.SMALL)
-                {
-                    plantAnimator.SetTrigger("MinMax");
-                    tall = Directions.MAX;
-                    timer = 0;
-
-                }
-                if (tall == Directions.MID)
-                {
-                    plantAnimator.SetTrigger("Max");
-                    tall = Directions.MAX;
-                    timer = 0;
-
-                }
-
-
-            }
-        }
+        seed = true;
     }
 
 
