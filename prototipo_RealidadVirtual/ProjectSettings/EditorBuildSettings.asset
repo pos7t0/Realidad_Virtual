@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/GardenVR.unity
+    path: Assets/Scenes/GardenVRB.unity
     guid: e895d13deffbead458349ab0c8aa01be
   m_configObjects:
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 38411e1b952e7fe438b8373cdf16abb7,
