@@ -5,11 +5,11 @@ using UnityEngine;
 public class WateringCan : MonoBehaviour
 {
     public ParticleSystem water;
-
+    private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -30,11 +30,16 @@ public class WateringCan : MonoBehaviour
         if (isTiltingForward || isTiltingSideways) // Only emit when tilted forward, not sideways
         {
             if (!water.isPlaying)
+            {
                 water.Play();
+                audioSource.Play();
+            }
+                
             emission.rateOverTime = 10f; // Set particles per second
         }
         else
         {
+            audioSource.Stop();
             water.Stop();
             emission.rateOverTime = 0f; // Stop emitting
         }
